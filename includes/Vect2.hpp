@@ -9,7 +9,8 @@ struct Vect2 {
 
 	bool	operator==(const Vect2& vect) const;
 	Vect2	operator+(const Vect2& vect) const;
-	bool	has() const;
+	
+    bool	has() const;
 	bool	isAdjacent(const Vect2& vect) const;
 };
 
