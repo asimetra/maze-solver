@@ -5,18 +5,18 @@
 Maze::Maze(std::istream& input) : _start(), _exit() {build(input);}
 
 bool	Maze::isValidTile(char c) const { return  c == WALL || c == FLOOR;}
-bool 	Maze::isHorizBorderTile(const vect2 &vect) const { return vect.x == 0 || vect.x == HEIGHT - 1;}
-bool 	Maze::isVertBorderTile(const vect2 &vect) const { return vect.y == 0 || vect.y == WIDTH - 1;}
-bool	Maze::isBorderTile(const vect2 &vect) const { return isHorizBorderTile(vect) || isVertBorderTile(vect);}
-bool	Maze::isCornerTile(const vect2 &vect) const {return isHorizBorderTile(vect) && isVertBorderTile(vect);};
+bool 	Maze::isHorizBorderTile(const Vect2 &vect) const { return vect.x == 0 || vect.x == HEIGHT - 1;}
+bool 	Maze::isVertBorderTile(const Vect2 &vect) const { return vect.y == 0 || vect.y == WIDTH - 1;}
+bool	Maze::isBorderTile(const Vect2 &vect) const { return isHorizBorderTile(vect) || isVertBorderTile(vect);}
+bool	Maze::isCornerTile(const Vect2 &vect) const {return isHorizBorderTile(vect) && isVertBorderTile(vect);};
 
 int		Maze::getWidth() const {return WIDTH;}
 int 	Maze::getHeight() const {return HEIGHT;}
 
-const vect2&	Maze::getStart() const { return _start;};
-const vect2&	Maze::getExit() const  { return _exit;};
+const Vect2&	Maze::getStart() const { return _start;};
+const Vect2&	Maze::getExit() const  { return _exit;};
 
-bool	Maze::isValidMove(const vect2& vect) const { return vect.x >= 0 && vect.y >= 0 && vect.y < WIDTH && vect.x < HEIGHT;}
+bool	Maze::isValidMove(const Vect2& vect) const { return vect.x >= 0 && vect.y >= 0 && vect.y < WIDTH && vect.x < HEIGHT;}
 
 Maze    Maze::fromFile(const std::string &mf) {
     if (mf.size() <= 4 || mf.substr(mf.size() - 4) != ".txt") {
@@ -73,7 +73,7 @@ void	Maze::parseLine(const std::string& line, int lindex) {
 		throw std::runtime_error("invalid WIDTH");
 	}
 
-	for (vect2 v = {lindex, 0}; v.y < WIDTH; v.y++) {		
+	for (Vect2 v = {lindex, 0}; v.y < WIDTH; v.y++) {		
 		char tile = line[v.y];
 		
 		if (!isValidTile(line[v.y])) {
@@ -92,7 +92,7 @@ void	Maze::parseLine(const std::string& line, int lindex) {
 	TOP-BOTTOM Line: Horizontal: Cannot be Corner and horiz sequential gate
 	BODY Line: Vertical: Cannot be vert sequential gate
 */
-void	Maze::parseGate(const vect2 &vect) {
+void	Maze::parseGate(const Vect2 &vect) {
 	if (isCornerTile(vect)) { /*Corner Horiz & Vert*/
 		throw std::runtime_error("invalid GATE on map");
 	}
@@ -103,7 +103,7 @@ void	Maze::parseGate(const vect2 &vect) {
 	}
 }
 
-void	Maze::setGate(const vect2 &vect) {
+void	Maze::setGate(const Vect2 &vect) {
 	if (!_start.has()) { 
 		_start = vect;
 	}
@@ -114,7 +114,7 @@ void	Maze::setGate(const vect2 &vect) {
 	}
 }
 
-Maze::Tile	Maze::getTile(const vect2& vect) const {
+Maze::Tile	Maze::getTile(const Vect2& vect) const {
 	if (!isValidMove(vect)) {
 		throw std::runtime_error("invalid TILE position");
 	}

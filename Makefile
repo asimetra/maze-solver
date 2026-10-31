@@ -1,7 +1,8 @@
 NAME = MazeSolver
 
 SRCS = main.cpp \
-	src/Maze.cpp
+	src/Maze.cpp \
+	src/Vect2.cpp
 
 OBJS = $(SRCS:.cpp=.o)
 

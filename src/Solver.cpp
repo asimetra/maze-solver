@@ -6,6 +6,6 @@ void    Solver::Solve() {
     /* todo look at Maze class public func
         get start and exit tile
         and u can look which tile is it with getTile func
-        vect2 is struct just like c 
+        Vect2 is struct just like c 
     */
 };
