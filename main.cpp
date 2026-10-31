@@ -21,7 +21,7 @@ int main(int ac, char** av) {
         // Solver.solve
         //render
     } catch (std::exception &err) {
-        std::cerr << err.what() << std::endl; 
+        std::cerr << "error: " << err.what() << std::endl; 
     }
 
     return 0;

@@ -50,11 +50,11 @@ void    Maze::build(std::istream& input) {
 	}
 
 	if (input.bad()) {
-		throw std::runtime_error("error reading input");
+		throw std::runtime_error("reading input");
 	}
 
     if (!input.eof()) {
-        throw std::runtime_error("error reading input: too many lines");
+        throw std::runtime_error("too many lines");
     }
 
 	if (lineCount != HEIGHT) {
