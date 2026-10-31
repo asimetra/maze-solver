@@ -73,7 +73,7 @@ void	Maze::parseLine(const std::string& line, int lindex) {
 		throw std::runtime_error("invalid WIDTH");
 	}
 
-	for (vect2 v = {(int)lindex, 0}; v.y < WIDTH; v.y++) {		
+	for (vect2 v = {lindex, 0}; v.y < WIDTH; v.y++) {		
 		char tile = line[v.y];
 		
 		if (!isValidTile(line[v.y])) {
