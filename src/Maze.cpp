@@ -36,10 +36,9 @@ void    Maze::build(std::istream& input) {
 	int	lineCount = 0;
 
 	/*void pointer operator return fail*/
-    while (std::getline(input, line) && lineCount < HEIGHT) { 
+    while (lineCount < HEIGHT && std::getline(input, line) ) { 
         /* C streams on Windows OS convert '\n' to '\r\n' on output, 
-		and convert '\r\n' to '\n' on input.  
-		ref: https://en.cppreference.com/c/io/FILE
+		and convert '\r\n' to '\n' on input. ref: https://en.cppreference.com/c/io/FILE
 		so a CRLF file read on Linux leaves a trailing '\r' in each line*/
 		if (!line.empty() && line.back() == '\r') { 
 			line.pop_back();
@@ -53,7 +52,9 @@ void    Maze::build(std::istream& input) {
 		throw std::runtime_error("reading input");
 	}
 
-    if (!input.eof()) {
+	/* If good() == true, returns the next character as obtained by rdbuf()->sgetc().
+	   Otherwise, returns Traits::eof()*/
+    if (input.peek() != std::char_traits<char>::eof()) {
         throw std::runtime_error("too many lines");
     }
 

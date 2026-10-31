@@ -6,6 +6,8 @@
 
     Valid Maze:
     just 1 enter & exit;
+    every line end with \n;
+    sequantial exit & enter is not valid;
 */
 
 int main(int ac, char** av) {
