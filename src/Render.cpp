@@ -2,4 +2,6 @@
 
 Render::Render(const Maze& maze) : _maze(maze) {}
 
-void    Render::Draw() {}
+void    Render::Draw() {
+    
+}

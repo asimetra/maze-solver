@@ -2,6 +2,7 @@
 # define SOLVER_HPP
 
 #include "Maze.hpp"
+#include <stack>
 
 class Solver {
     private:
@@ -11,7 +12,7 @@ class Solver {
     public:
         Solver(const Maze& maze);
 
-        void    Solve(); //prop we have to turn stack instead of using void 
+        std::stack<int> Solve(); //prop we have to turn stack instead of using void 
 };
 
 #endif
