@@ -5,7 +5,9 @@
 #include <algorithm>
 
 #ifdef _WIN32
-    #define NOMINMAX /* windows.h defines min/max macros that break std::max */
+    #ifndef NOMINMAX /* windows.h defines min/max macros that break std::max */
+        #define NOMINMAX
+    #endif
     #include <windows.h>
 #else
     #include <unistd.h>
