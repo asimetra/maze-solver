@@ -5,7 +5,7 @@ on: [push, workflow_dispatch]
 jobs:
   build:
     runs-on: windows-latest
-    timeout-minutes: 10
+    timeout-minutes: 15
     steps:
       - uses: actions/checkout@v4
 
@@ -28,6 +28,47 @@ jobs:
       - name: mingw32-make (build and run, like the assignment)
         shell: cmd
         run: mingw32-make
+
+      # Open the program in a real console window (conhost, like the assignment's screenshot)
+      # and take screenshots, to see how the arrow characters are drawn on Windows.
+      - name: Screenshots of the arrows in a real cmd window
+        shell: pwsh
+        run: |
+          @'
+          #include <windows.h>
+          #include <cstdio>
+          int main() {
+              std::printf("1) CP437 : [%c] [%c] [%c] [%c]\n", 17, 16, 30, 31);
+              SetConsoleOutputCP(CP_UTF8);
+              std::printf("2) UTF-8 : [\xE2\x97\x84] [\xE2\x96\xBA] [\xE2\x96\xB2] [\xE2\x96\xBC]\n");
+              return 0;
+          }
+          '@ | Set-Content -Encoding ascii arrowtest.cpp
+          g++ -static -o arrowtest.exe arrowtest.cpp
+
+          Add-Type -AssemblyName System.Windows.Forms, System.Drawing
+          function Shot($name) {
+            $b = [System.Windows.Forms.Screen]::PrimaryScreen.Bounds
+            $bmp = New-Object System.Drawing.Bitmap $b.Width, $b.Height
+            $g = [System.Drawing.Graphics]::FromImage($bmp)
+            $g.CopyFromScreen($b.Location, [System.Drawing.Point]::Empty, $b.Size)
+            $bmp.Save("$PWD\$name.png")
+          }
+
+          Start-Process cmd.exe -WorkingDirectory $PWD -ArgumentList '/k', 'arrowtest.exe'
+          Start-Sleep -Seconds 4
+          Shot "1-arrowtest"
+
+          Start-Process cmd.exe -WorkingDirectory $PWD -ArgumentList '/k', 'bin\MazeSolver.exe'
+          Start-Sleep -Seconds 10
+          Shot "2-maze-middle"
+          Start-Sleep -Seconds 25
+          Shot "3-maze-end"
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: screenshots
+          path: "*.png"
 
       - name: mingw32-make clean
         shell: cmd

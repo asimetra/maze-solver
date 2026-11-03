@@ -10,11 +10,9 @@ class Render {
     private:
         Maze	_maze;
         
-        #ifdef _WIN32 /*https://learn.microsoft.com/en-us/cpp/preprocessor/predefined-macros*/
-            char    _dirChr[4] = {17, 16, 30, 31}; /*NDSMI: https://en.cppreference.com/cpp/language/data_members */
-        #else
-            char    _dirChr[4] = {'<', '>', '^', 'v'};
-        #endif
+        /* UTF-8 filled arrows (◄ ► ▲ ▼), order follows dir::Dir: LEFT, RIGHT, UP, DOWN.
+           Raw bytes 16/17/30/31 are control codes in modern consoles and print nothing. */
+        const char* _dirChr[4] = {"\xE2\x97\x84", "\xE2\x96\xBA", "\xE2\x96\xB2", "\xE2\x96\xBC"};
 
         void    renderFrame(const Vect2& pos, dir::Dir dir);
         void    clearScreen();

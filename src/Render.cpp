@@ -13,7 +13,11 @@
     #include <unistd.h>
 #endif
 
-Render::Render(const Maze& maze) : _maze(maze) {}
+Render::Render(const Maze& maze) : _maze(maze) {
+    #ifdef _WIN32 /*https://learn.microsoft.com/en-us/cpp/preprocessor/predefined-macros*/
+        SetConsoleOutputCP(CP_UTF8);
+    #endif
+}
 
 void    Render::render(std::stack<dir::Dir> steps) {
     auto next_frame = std::chrono::steady_clock::now();
@@ -39,9 +43,10 @@ void    Render::renderFrame(const Vect2& pos, dir::Dir dir) {
 
     for (v.x = 0; v.x < HEIGHT; v.x++) {
         for (v.y = 0; v.y < WIDTH; v.y++) {
-            char c = (pos == v) ? _dirChr[dir] : (char)_maze.getTile(v); 
-            
-            std::cout << c;
+            if (pos == v)
+                std::cout << _dirChr[dir];
+            else
+                std::cout << (char)_maze.getTile(v);
         }
         std::cout << '\n';
     }
