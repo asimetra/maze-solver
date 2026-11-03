@@ -20,6 +20,7 @@ int main(int ac, char** av) {
         }
         Render render = Render(maze);
         render.render(steps);
+        std::cout << "Exit reached in " << steps.size() << " steps." << std::endl;
     } catch (std::exception &err) {
         std::cerr << "error: " << err.what() << std::endl; 
         return 1;
