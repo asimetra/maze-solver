@@ -63,3 +63,7 @@ Testing/
 .cache/
 
 MazeSolver
+bin/*
+lib/*
+!bin/.gitkeep
+!lib/.gitkeep

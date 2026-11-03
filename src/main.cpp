@@ -9,7 +9,7 @@ int main(int ac, char** av) {
         return 1;
     }
 
-    std::string mapFile = (ac == 2) ? av[1] : "maze/default.txt";
+    std::string mapFile = (ac == 2) ? av[1] : "Harita.txt";
     try {
         const Maze& maze = Maze::fromFile(mapFile);
         
