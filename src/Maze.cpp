@@ -1,4 +1,4 @@
-#include "../includes/Maze.hpp"
+#include "Maze.hpp"
 #include <fstream>
 #include <stdexcept>
 
@@ -40,7 +40,7 @@ void    Maze::build(std::istream& input) {
         /* C streams on Windows OS convert '\n' to '\r\n' on output, 
 		and convert '\r\n' to '\n' on input. ref: https://en.cppreference.com/c/io/FILE
 		so a CRLF file read on Linux leaves a trailing '\r' in each line*/
-		if (!line.empty() && line.back() == '\r') { 
+		if (!line.empty() && line.back() == '\r') {
 			line.pop_back();
 		}
 		
@@ -88,10 +88,6 @@ void	Maze::parseLine(const std::string& line, int lindex) {
 
 }
 
-/* dispatcher func
-	TOP-BOTTOM Line: Horizontal: Cannot be Corner and horiz sequential gate
-	BODY Line: Vertical: Cannot be vert sequential gate
-*/
 void	Maze::parseGate(const Vect2 &vect) {
 	if (isCornerTile(vect)) { /*Corner Horiz & Vert*/
 		throw std::runtime_error("invalid GATE on map");

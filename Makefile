@@ -1,26 +1,45 @@
 NAME = MazeSolver
 
-SRCS = main.cpp \
+SRCS = src/main.cpp \
 	src/Maze.cpp \
-	src/Vect2.cpp
+	src/Vect2.cpp \
+	src/Render.cpp \
+	src/Solver.cpp
 
 OBJS = $(SRCS:.cpp=.o)
 
-CXX = c++
+CXX = g++
 
-CXXFLAGS = -Wall -Wextra -Werror -std=c++11  -Iincludes -g
+CXXFLAGS = -Wall -Wextra -std=c++11  -Iinclude -g
 
-all: $(NAME)
+# Windows sets OS=Windows_NT; force cmd.exe so the result does not depend on whether sh.exe is in PATH
+ifeq ($(OS),Windows_NT)
+    SHELL := cmd.exe
+    TARGET = $(NAME).exe
+    RM = del /Q /F
+    FIX = $(subst /,\,$1)
+    RUN = $(TARGET)
+else
+    TARGET = $(NAME)
+    RM = rm -f
+    FIX = $1
+    RUN = ./$(TARGET)
+endif
 
-$(NAME): $(OBJS)
-	@$(CXX) $(CXXFLAGS) -o $(NAME) $(OBJS)
+all: $(TARGET)
+
+$(TARGET): $(OBJS)
+	@$(CXX) $(CXXFLAGS) -o $(TARGET) $(OBJS)
+
+run: all
+	@$(RUN)
 
 clean:
-	@rm -rf $(OBJS)
+	-@$(RM) $(call FIX,$(OBJS))
 
 fclean: clean
-	@rm -rf $(NAME)
+	-@$(RM) $(call FIX,$(TARGET))
 
 re: fclean all
 
-.PHONY: all clean fclean re
+.PHONY: all run clean fclean re
